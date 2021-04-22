@@ -11,6 +11,7 @@
 ---
 
 - React
+  - useContext
 - styled-components
 - react-router-dom
 - firebase
