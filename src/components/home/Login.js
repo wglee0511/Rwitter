@@ -1,26 +1,44 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { LoginContext } from "../../context/LoginContext";
+import Signin from "./Signin";
 
 const Login = () => {
   const loginValue = useContext(LoginContext);
-  const { onInputChange } = loginValue;
+  const { onInputChange, onSetLogin, logIn } = loginValue;
   return (
-    <div>
-      <div>
-        <h1>르위터 로그인</h1>
-      </div>
-      <div>
-        <form>
-          <input type="email" placeholder="이메일" onChange={onInputChange} />
-          <input
-            type="password"
-            placeholder="비밀번호"
-            onChange={onInputChange}
-          />
-          <button>로그인</button>
-        </form>
-      </div>
-    </div>
+    <>
+      {logIn && (
+        <>
+          <div>
+            <h1>르위터 로그인</h1>
+          </div>
+          <div>
+            <form>
+              <input
+                type="email"
+                name="email"
+                placeholder="이메일"
+                onChange={onInputChange}
+                required
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="비밀번호"
+                onChange={onInputChange}
+                required
+              />
+              <button>로그인</button>
+            </form>
+          </div>
+          <div>
+            <button>구글 로그인</button>
+            <button onClick={onSetLogin}>가입하기</button>
+          </div>
+        </>
+      )}
+      {!logIn && <Signin />}
+    </>
   );
 };
 
