@@ -38,6 +38,18 @@ const LoginProvider = (props) => {
     setLogIn(!logIn);
   };
 
+  const onLoginSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const data = await firebaseAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+    } catch (error) {
+      window.alert(error.message);
+    }
+  };
+
   const onSignInSubmit = async (event) => {
     event.preventDefault();
     if (stateValue) {
@@ -46,7 +58,6 @@ const LoginProvider = (props) => {
           email,
           firstPassword
         );
-        console.log(data);
       } catch (error) {
         console.error(error);
         window.alert(error.message);
@@ -67,6 +78,7 @@ const LoginProvider = (props) => {
 
     ///log in
     password,
+    onLoginSubmit,
 
     ///sign in
     firstPassword,

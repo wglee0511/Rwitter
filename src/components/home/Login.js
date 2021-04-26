@@ -4,7 +4,15 @@ import Signin from "./Signin";
 
 const Login = () => {
   const loginValue = useContext(LoginContext);
-  const { onInputChange, onSetLogin, logIn, onGoogleClick } = loginValue;
+  const {
+    onInputChange,
+    onSetLogin,
+    logIn,
+    onGoogleClick,
+    password,
+    email,
+    onLoginSubmit,
+  } = loginValue;
   return (
     <>
       {logIn && (
@@ -13,12 +21,13 @@ const Login = () => {
             <h1>르위터 로그인</h1>
           </div>
           <div>
-            <form>
+            <form onSubmit={onLoginSubmit}>
               <input
                 type="email"
                 name="email"
                 placeholder="이메일"
                 onChange={onInputChange}
+                value={email}
                 required
               />
               <input
@@ -26,6 +35,7 @@ const Login = () => {
                 name="password"
                 placeholder="비밀번호"
                 onChange={onInputChange}
+                value={password}
                 required
               />
               <button>로그인</button>
