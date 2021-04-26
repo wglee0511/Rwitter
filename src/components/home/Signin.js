@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../context/LoginContext";
-import { firebaseAuth } from "../../firebaseInit";
 
 const Signin = () => {
   const [stateMessage, setStateMessage] = useState("");
-  const [stateValue, setStateValue] = useState(false);
+
   const loginValue = useContext(LoginContext);
   const {
     onInputChange,
@@ -12,10 +11,13 @@ const Signin = () => {
     email,
     firstPassword,
     secondPasssword,
+    setStateValue,
+    onSignInSubmit,
+    onGoogleClick,
   } = loginValue;
 
   useEffect(() => {
-    if (firstPassword === secondPasssword) {
+    if (firstPassword === secondPasssword && firstPassword !== "") {
       setStateMessage("비밀번호가 일치합니다.");
       setStateValue(true);
     } else {
@@ -23,24 +25,6 @@ const Signin = () => {
       setStateValue(false);
     }
   }, [firstPassword, secondPasssword]);
-
-  const onSignInSubmit = async (event) => {
-    event.preventDefault();
-    if (stateValue) {
-      try {
-        const data = await firebaseAuth.createUserWithEmailAndPassword(
-          email,
-          firstPassword
-        );
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-        window.alert(error.message);
-      }
-    } else if (!stateValue) {
-      window.alert("비밀번호가 일치하지 않습니다.");
-    }
-  };
 
   return (
     <>
@@ -78,8 +62,8 @@ const Signin = () => {
         </form>
       </div>
       <div>
-        <button>구글 회원가입</button>
-        <button onClick={onSetLogin}>로그인</button>
+        <button onClick={onGoogleClick}>구글 회원가입</button>
+        <button onClick={onSetLogin}>로그인 하기</button>
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { firebaseAuth, firebaseInstance } from "../firebaseInit";
 
 const LoginContext = createContext();
 
@@ -10,6 +11,7 @@ const LoginProvider = (props) => {
   const [password, setPassword] = useState("");
 
   /// signin  state
+  const [stateValue, setStateValue] = useState(false);
   const [firstPassword, setFirstPassword] = useState("");
   const [secondPasssword, setSecondPasssword] = useState("");
 
@@ -27,8 +29,31 @@ const LoginProvider = (props) => {
     }
   };
 
+  const onGoogleClick = async () => {
+    const provider = new firebaseInstance.auth.GoogleAuthProvider();
+    await firebaseAuth.signInWithPopup(provider);
+  };
+
   const onSetLogin = () => {
     setLogIn(!logIn);
+  };
+
+  const onSignInSubmit = async (event) => {
+    event.preventDefault();
+    if (stateValue) {
+      try {
+        const data = await firebaseAuth.createUserWithEmailAndPassword(
+          email,
+          firstPassword
+        );
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+        window.alert(error.message);
+      }
+    } else if (!stateValue) {
+      window.alert("비밀번호가 일치하지 않습니다.");
+    }
   };
 
   /// signin  function
@@ -38,6 +63,7 @@ const LoginProvider = (props) => {
     onSetLogin,
     logIn,
     email,
+    onGoogleClick,
 
     ///log in
     password,
@@ -45,6 +71,9 @@ const LoginProvider = (props) => {
     ///sign in
     firstPassword,
     secondPasssword,
+    onSignInSubmit,
+    stateValue,
+    setStateValue,
   };
 
   return (

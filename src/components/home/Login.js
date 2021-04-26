@@ -4,7 +4,7 @@ import Signin from "./Signin";
 
 const Login = () => {
   const loginValue = useContext(LoginContext);
-  const { onInputChange, onSetLogin, logIn } = loginValue;
+  const { onInputChange, onSetLogin, logIn, onGoogleClick } = loginValue;
   return (
     <>
       {logIn && (
@@ -32,7 +32,7 @@ const Login = () => {
             </form>
           </div>
           <div>
-            <button>구글 로그인</button>
+            <button onClick={onGoogleClick}>구글 로그인</button>
             <button onClick={onSetLogin}>가입하기</button>
           </div>
         </>
