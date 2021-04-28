@@ -41,10 +41,7 @@ const LoginProvider = (props) => {
   const onLoginSubmit = async (event) => {
     event.preventDefault();
     try {
-      const data = await firebaseAuth.signInWithEmailAndPassword(
-        email,
-        password
-      );
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
     } catch (error) {
       window.alert(error.message);
     }
@@ -54,10 +51,7 @@ const LoginProvider = (props) => {
     event.preventDefault();
     if (stateValue) {
       try {
-        const data = await firebaseAuth.createUserWithEmailAndPassword(
-          email,
-          firstPassword
-        );
+        await firebaseAuth.createUserWithEmailAndPassword(email, firstPassword);
       } catch (error) {
         console.error(error);
         window.alert(error.message);

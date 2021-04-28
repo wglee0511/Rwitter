@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import Login from "./components/home/Login";
+
+import AppRouter from "./components/router/AppRouter";
 import { LoginProvider } from "./context/LoginContext";
+import { LoginUserContext } from "./context/LoginUserContext";
 
 function App() {
+  const LoginUserValue = useContext(LoginUserContext);
+  const { init } = LoginUserValue;
   return (
     <LoginProvider>
       <Router>
         <Switch>
           <Route exact path="/">
-            <Login />
+            {init ? <AppRouter /> : "Loading..."}
           </Route>
         </Switch>
       </Router>
