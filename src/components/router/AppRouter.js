@@ -5,11 +5,11 @@ import Main from "../home/Main";
 
 const AppRouter = () => {
   const LoginUserValue = useContext(LoginUserContext);
-  const { currentUserInfo, isLoggedIn } = LoginUserValue;
+  const { isLoggedIn } = LoginUserValue;
 
   return (
     <>
-      {isLoggedIn && <Main currentUserInfo={currentUserInfo} />}
+      {isLoggedIn && <Main  />}
       {!isLoggedIn && <Login />}
     </>
   );
