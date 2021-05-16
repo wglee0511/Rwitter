@@ -25,7 +25,7 @@ const Main = () => {
         <button>르윗</button>
       </form>
       {textRwitts?.map((each) => {
-        return <Rwitt eachInfo={each} />;
+        return <Rwitt eachInfo={each} isowner={currentUid === each.userId} />;
       })}
     </div>
   );
