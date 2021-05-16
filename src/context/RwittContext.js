@@ -38,12 +38,23 @@ const RwittContextProvider = (props) => {
     setTextRwitt(text);
   };
 
+  const onDeleteClick = async (event) => {
+    const rwittId = event.target.parentElement.getAttribute("postid");
+
+    const isOk = window.confirm("정말로 삭제 하시겠습니까?");
+    if (isOk) {
+      await firebaseFirestore.doc(`rwitts/${rwittId}`).delete();
+    }
+  };
+
   const rwittValue = {
     textRwitt,
     textRwitts,
     onRrittSubmit,
     onChangeRwitt,
+    onDeleteClick,
   };
+
   return (
     <RwittContext.Provider value={rwittValue}>
       {props.children}
