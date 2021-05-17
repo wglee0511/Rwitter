@@ -8,8 +8,15 @@ const Main = () => {
   const LoginUserValue = useContext(LoginUserContext);
   const { currentUserInfo } = LoginUserValue;
   const currentUid = currentUserInfo.uid;
-  const { onRrittSubmit, onChangeRwitt, textRwitt, textRwitts, onDeleteClick } =
-    rwittValue;
+  const {
+    onRrittSubmit,
+    onChangeRwitt,
+    textRwitt,
+    textRwitts,
+    stringImage,
+    onFIleChange,
+    onFileClear,
+  } = rwittValue;
 
   console.log(textRwitts);
   return (
@@ -22,6 +29,13 @@ const Main = () => {
           value={textRwitt}
           required
         />
+        <input type="file" accept="image/*" onChange={onFIleChange} />
+        {stringImage && (
+          <div>
+            <img src={stringImage} width="50px" height="50px" />
+            <button onClick={onFileClear}>❌</button>
+          </div>
+        )}
         <button>르윗</button>
       </form>
       {textRwitts?.map((each) => {

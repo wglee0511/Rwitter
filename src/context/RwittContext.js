@@ -7,6 +7,7 @@ const RwittContext = createContext();
 const RwittContextProvider = (props) => {
   const [textRwitt, setTextRwitt] = useState("");
   const [textRwitts, setTextRwitts] = useState(null);
+  const [stringImage, setStringImage] = useState();
   const LoginUserValue = useContext(LoginUserContext);
   const { currentUserInfo } = LoginUserValue;
 
@@ -46,12 +47,30 @@ const RwittContextProvider = (props) => {
     }
   };
 
+  const onFIleChange = (event) => {
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    const reader = new FileReader();
+
+    if (theFile) {
+      reader.onload = () => setStringImage(reader.result);
+      reader.readAsDataURL(theFile);
+    }
+  };
+
+  const onFileClear = () => setStringImage(null);
+
   const rwittValue = {
     textRwitt,
     textRwitts,
     onRrittSubmit,
     onChangeRwitt,
     onDeleteClick,
+    onFIleChange,
+    stringImage,
+    onFileClear,
   };
 
   return (
