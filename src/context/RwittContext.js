@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { firebaseFirestore } from "../firebaseInit";
+import { firebaseFirestore, firebaseStorage } from "../firebaseInit";
 import { LoginUserContext } from "./LoginUserContext";
+import { v4 as uuidv4 } from "uuid";
 
 const RwittContext = createContext();
 
@@ -26,12 +27,23 @@ const RwittContextProvider = (props) => {
 
   const onRrittSubmit = async (event) => {
     event.preventDefault();
+    const checkBucket = firebaseStorage
+      .ref()
+      .child(`${currentUserInfo.uid}/${uuidv4()}`);
+    const uploadStringImage = await checkBucket.putString(
+      stringImage,
+      "data_url"
+    );
+    const imageUrl = await uploadStringImage.ref.getDownloadURL();
+
     await firebaseFirestore.collection("rwitts").add({
       userId: currentUserInfo.uid,
       creatAt: Date.now(),
       text: textRwitt,
+      imageUrl,
     });
     setTextRwitt("");
+    setStringImage(null);
   };
 
   const onChangeRwitt = (event) => {

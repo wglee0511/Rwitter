@@ -14,7 +14,14 @@
   - useContext
 - styled-components
 - react-router-dom
+
 - firebase
+
   - firestore
+  - storage
+  - auth
+
+- etc
+  - uuid
 
 ---
