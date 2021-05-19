@@ -27,7 +27,7 @@ const Rwitt = (props) => {
   };
 
   return (
-    <div key={eachInfo.id} postid={eachInfo.id}>
+    <div postid={eachInfo.id} posturl={eachInfo.imageUrl}>
       {changeRwitt ? (
         <>
           <form onSubmit={onRwittSubmit}>
@@ -44,6 +44,14 @@ const Rwitt = (props) => {
         </>
       ) : (
         <>
+          {eachInfo.imageUrl && (
+            <img
+              src={eachInfo.imageUrl}
+              width="100px"
+              height="100px"
+              alt={eachInfo.text}
+            />
+          )}
           <div>{eachInfo.text}</div>
           {isowner && (
             <>

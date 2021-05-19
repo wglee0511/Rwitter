@@ -8,7 +8,7 @@ const RwittContext = createContext();
 const RwittContextProvider = (props) => {
   const [textRwitt, setTextRwitt] = useState("");
   const [textRwitts, setTextRwitts] = useState(null);
-  const [stringImage, setStringImage] = useState();
+  const [stringImage, setStringImage] = useState(null);
   const LoginUserValue = useContext(LoginUserContext);
   const { currentUserInfo } = LoginUserValue;
 
@@ -27,15 +27,17 @@ const RwittContextProvider = (props) => {
 
   const onRrittSubmit = async (event) => {
     event.preventDefault();
-    const checkBucket = firebaseStorage
-      .ref()
-      .child(`${currentUserInfo.uid}/${uuidv4()}`);
-    const uploadStringImage = await checkBucket.putString(
-      stringImage,
-      "data_url"
-    );
-    const imageUrl = await uploadStringImage.ref.getDownloadURL();
-
+    let imageUrl = null;
+    if (stringImage !== null) {
+      const checkBucket = firebaseStorage
+        .ref()
+        .child(`${currentUserInfo.uid}/${uuidv4()}`);
+      const uploadStringImage = await checkBucket.putString(
+        stringImage,
+        "data_url"
+      );
+      imageUrl = await uploadStringImage.ref.getDownloadURL();
+    }
     await firebaseFirestore.collection("rwitts").add({
       userId: currentUserInfo.uid,
       creatAt: Date.now(),
@@ -53,9 +55,14 @@ const RwittContextProvider = (props) => {
 
   const onDeleteClick = async (event) => {
     const rwittId = event.target.parentElement.getAttribute("postid");
+    const rwittUrl = event.target.parentElement.getAttribute("posturl");
+
     const isOk = window.confirm("정말로 삭제 하시겠습니까?");
     if (isOk) {
       await firebaseFirestore.doc(`rwitts/${rwittId}`).delete();
+      {
+        rwittUrl && (await firebaseStorage.refFromURL(rwittUrl).delete());
+      }
     }
   };
 

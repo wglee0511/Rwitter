@@ -18,7 +18,6 @@ const Main = () => {
     onFileClear,
   } = rwittValue;
 
-  console.log(textRwitts);
   return (
     <div>
       <form onSubmit={onRrittSubmit}>
@@ -39,7 +38,13 @@ const Main = () => {
         <button>르윗</button>
       </form>
       {textRwitts?.map((each) => {
-        return <Rwitt eachInfo={each} isowner={currentUid === each.userId} />;
+        return (
+          <Rwitt
+            key={each.id}
+            eachInfo={each}
+            isowner={currentUid === each.userId}
+          />
+        );
       })}
     </div>
   );
