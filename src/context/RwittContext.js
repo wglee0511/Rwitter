@@ -13,16 +13,18 @@ const RwittContextProvider = (props) => {
   const { currentUserInfo } = LoginUserValue;
 
   useEffect(() => {
-    firebaseFirestore.collection("rwitts").onSnapshot((eachSnapShot) => {
-      firebaseFirestore.collection("rwitts").orderBy("creatAt", "desc");
-      const rwittArr = eachSnapShot.docs.map((each) => {
-        return {
-          id: each.id,
-          ...each.data(),
-        };
+    firebaseFirestore
+      .collection("rwitts")
+      .orderBy("createAt", "desc")
+      .onSnapshot((eachSnapShot) => {
+        const rwittArr = eachSnapShot.docs.map((each) => {
+          return {
+            id: each.id,
+            ...each.data(),
+          };
+        });
+        setTextRwitts(rwittArr);
       });
-      setTextRwitts(rwittArr);
-    });
   }, []);
 
   const onRrittSubmit = async (event) => {
@@ -40,7 +42,7 @@ const RwittContextProvider = (props) => {
     }
     await firebaseFirestore.collection("rwitts").add({
       userId: currentUserInfo.uid,
-      creatAt: Date.now(),
+      createAt: Date.now(),
       text: textRwitt,
       imageUrl,
     });
